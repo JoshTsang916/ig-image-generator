@@ -2,6 +2,7 @@
     "name": "ig-image-generator",
     "version": "1.0.0",
     "description": "Generate Instagram carousel images with Puppeteer",
+    "type": "module",
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
