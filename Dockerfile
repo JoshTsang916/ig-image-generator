@@ -1,5 +1,5 @@
-# 使用含 Chromium 的 Node 映像
-FROM ghcr.io/puppeteer/puppeteer:22.0.0
+# 使用官方 Puppeteer 映像 (已包含 Chrome)
+FROM ghcr.io/puppeteer/puppeteer:24.0.0
 
 # 設定工作目錄
 WORKDIR /app
@@ -7,9 +7,10 @@ WORKDIR /app
 # 複製 package 檔案
 COPY package*.json ./
 
-# 安裝依賴 (跳過 Chromium 下載，用映像內建的)
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-RUN npm ci --only=production
+# 安裝依賴 (使用映像內建的 Chrome)
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+RUN npm ci --omit=dev
 
 # 複製應用程式碼
 COPY . .
