@@ -1,5 +1,20 @@
-# 使用官方 Puppeteer 映像 (已包含 Chrome)
-FROM ghcr.io/puppeteer/puppeteer:24.0.0
+# 使用輕量 Alpine + Chromium (~500MB)
+FROM node:20-alpine
+
+# 安裝 Chromium 和必要依賴
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    font-noto-cjk \
+    curl
+
+# 設定 Puppeteer 使用系統 Chromium
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # 設定工作目錄
 WORKDIR /app
@@ -7,9 +22,7 @@ WORKDIR /app
 # 複製 package 檔案
 COPY package*.json ./
 
-# 安裝依賴 (使用映像內建的 Chrome)
-ENV PUPPETEER_SKIP_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+# 安裝依賴
 RUN npm ci --omit=dev
 
 # 複製應用程式碼
