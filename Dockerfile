@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     ca-certificates \
     ttf-freefont \
     font-noto-cjk \
+    font-noto-emoji \
     curl
 
 # 設定 Puppeteer 使用系統 Chromium
