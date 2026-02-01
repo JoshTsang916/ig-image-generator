@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 1080px;
+            height: 1350px;
+            font-family: 'Noto Sans TC', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{backgroundUrl}}');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        /* 加深的 overlay - 讓文字更清晰 */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.35) 0%,
+                    rgba(0, 0, 0, 0.50) 30%,
+                    rgba(0, 0, 0, 0.75) 70%,
+                    rgba(0, 0, 0, 0.90) 100%);
+            z-index: 2;
+        }
+
+        /* 暗角效果 */
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center,
+                    transparent 0%,
+                    transparent 40%,
+                    rgba(0, 0, 0, 0.5) 100%);
+            z-index: 2;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 80px;
+            color: white;
+        }
+
+        /* CTA 摘錄句 */
+        .cta-excerpt {
+            font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.6;
+            max-width: 850px;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 80px;
+            text-wrap: balance;
+        }
+
+        .cta-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .cta-emoji {
+            font-size: 80px;
+        }
+
+        .cta-text {
+            font-size: 36px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cta-hashtag {
+            position: absolute;
+            bottom: 130px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 26px;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 1px;
+        }
+
+        .signature {
+            position: absolute;
+            bottom: 55px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 30px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            letter-spacing: 1px;
+            z-index: 4;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 50px;
+            right: 60px;
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.5);
+            z-index: 4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="vignette"></div>
+    <div class="cta-content">
+        <div class="cta-excerpt">{{excerpt}}</div>
+        <div class="cta-action">
+            <div class="cta-emoji">👇</div>
+            <div class="cta-text">完整想法在文字區</div>
+        </div>
+    </div>
+    <div class="cta-hashtag">{{hashtag}}</div>
+    <div class="slide-number">{{slideIndex}} / {{totalSlides}}</div>
+    <div class="signature">@Josh_AI自動化</div>
+</body>
+
+</html>
