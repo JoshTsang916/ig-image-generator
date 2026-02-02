@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日記模板預覽 - Journal Template</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Caveat:wght@400;600;700&family=Kalam:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      font-family: 'Noto Serif TC', serif;
+    }
+
+    .ig-frame {
+      width: 400px;
+      height: 500px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .blur-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 220, 180, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(200, 160, 120, 0.3) 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 80%, rgba(180, 140, 100, 0.25) 0%, transparent 45%),
+        linear-gradient(180deg, #8b7355 0%, #6b5a47 50%, #4a3f35 100%);
+      filter: blur(20px);
+      transform: scale(1.1);
+    }
+
+    .blur-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(255, 240, 200, 0.2) 0%, transparent 25%),
+        radial-gradient(circle at 75% 50%, rgba(255, 235, 190, 0.15) 0%, transparent 30%);
+    }
+
+    .journal-card {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      background: linear-gradient(180deg,
+          rgba(253, 248, 240, 0.97) 0%,
+          rgba(249, 240, 227, 0.96) 30%,
+          rgba(245, 233, 216, 0.95) 100%);
+      border-radius: 4px;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        0 2px 8px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+    }
+
+    .journal-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .binding-line {
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg,
+          transparent 0%,
+          #d4c0a8 5%,
+          #d4c0a8 95%,
+          transparent 100%);
+    }
+
+    .binding-line::after {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 15%;
+      bottom: 15%;
+      width: 10px;
+      background: repeating-linear-gradient(180deg,
+          transparent 0px,
+          transparent 18px,
+          #c4a882 18px,
+          #c4a882 20px);
+    }
+
+    .lined-bg {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(180deg,
+          transparent 0px,
+          transparent 32px,
+          rgba(180, 160, 130, 0.15) 32px,
+          rgba(180, 160, 130, 0.15) 33px);
+      top: 70px;
+      pointer-events: none;
+    }
+
+    .content {
+      position: absolute;
+      inset: 0;
+      padding: 20px 20px 18px 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .date-section {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .date-main {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: #8b6f4e;
+      letter-spacing: 1px;
+      font-weight: 400;
+    }
+
+    .date-weekday {
+      font-family: 'Caveat', cursive;
+      font-size: 28px;
+      color: #6b5338;
+      font-weight: 700;
+    }
+
+    .divider {
+      width: 100%;
+      height: 14px;
+      margin-bottom: 10px;
+    }
+
+    .divider svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .journal-body {
+      flex: 1;
+      font-family: 'Kalam', cursive;
+      font-size: 15px;
+      line-height: 1.85;
+      color: #4a3c2e;
+      letter-spacing: 0.2px;
+      font-weight: 300;
+      overflow: hidden;
+    }
+
+    .journal-body p {
+      margin-bottom: 6px;
+    }
+
+    /* 括號用不同字體避免手寫風格的奇怪感 */
+    .journal-body .note {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 13px;
+      color: #6b5a47;
+      font-style: italic;
+    }
+
+    .footer {
+      padding-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: #a08060;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ig-frame">
+    <div class="blur-bg"></div>
+
+    <div class="journal-card">
+      <div class="lined-bg"></div>
+      <div class="binding-line"></div>
+
+      <div class="content">
+        <div class="date-section">
+          <span class="date-main">2026.02.02</span>
+          <span class="date-weekday">Monday</span>
+        </div>
+
+        <div class="divider">
+          <svg viewBox="0 0 300 15" preserveAspectRatio="none">
+            <path d="M0,8 Q25,2 50,8 T100,8 T150,8 T200,8 T250,8 T300,8" fill="none" stroke="#c4a882" stroke-width="1.5"
+              stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <div class="journal-body">
+          <p>今天想要幫自己打造一個幫我把靈感庫的靈感孵化成文章的工作流，但實作起來有點差強人意，讓我有點小煩躁，覺得自己好像在浪費時間，一事無成。<span class="note">標準的思維反芻進攻中</span>
+          </p>
+          <p>於是我就轉換心情，出去附近的公園散散步，開始細想今天自己做了哪些事情，想著想著，今天還是做了挺多事情的嘛。心情就好很多了。</p>
+          <p>感謝那個已經能夠試著把自己從反芻中拉出來的自己。</p>
+        </div>
+
+        <div class="footer">
+          <span class="footer-text">@Josh_LifeForge</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
