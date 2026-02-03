@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Caveat:wght@400;600;700&family=Kalam:wght@300;400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 1080px;
+            height: 1350px;
+            font-family: 'Noto Serif TC', serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 備用純色背景 */
+        .blur-bg-fallback {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(255, 220, 180, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(200, 160, 120, 0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at 20% 80%, rgba(180, 140, 100, 0.25) 0%, transparent 45%),
+                linear-gradient(180deg, #8b7355 0%, #6b5a47 50%, #4a3f35 100%);
+        }
+
+        .light-effects {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 25% 30%, rgba(255, 240, 200, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 75% 50%, rgba(255, 235, 190, 0.1) 0%, transparent 30%);
+            z-index: 1;
+        }
+
+        /* 日記卡片 */
+        .journal-card {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            background: linear-gradient(180deg,
+                    rgba(253, 248, 240, 0.97) 0%,
+                    rgba(249, 240, 227, 0.96) 30%,
+                    rgba(245, 233, 216, 0.95) 100%);
+            border-radius: 10px;
+            box-shadow:
+                0 20px 80px rgba(0, 0, 0, 0.25),
+                0 5px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .journal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+        }
+
+        /* 左邊裝訂線 */
+        .binding-line {
+            position: absolute;
+            left: 65px;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(180deg, transparent 0%, #d4c0a8 5%, #d4c0a8 95%, transparent 100%);
+        }
+
+        .binding-line::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 12%;
+            bottom: 12%;
+            width: 25px;
+            background: repeating-linear-gradient(180deg, transparent 0px, transparent 45px, #c4a882 45px, #c4a882 50px);
+        }
+
+        /* 手繪橫線背景 */
+        .lined-bg {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(180deg, transparent 0px, transparent 82px, rgba(180, 160, 130, 0.15) 82px, rgba(180, 160, 130, 0.15) 84px);
+            top: 100px;
+            pointer-events: none;
+        }
+
+        /* 內容區域 */
+        .content {
+            position: absolute;
+            inset: 0;
+            padding: 80px 55px 60px 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Emoji */
+        .emoji {
+            font-size: 80px;
+            margin-bottom: 50px;
+        }
+
+        /* 主要問句 */
+        .main-text {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 48px;
+            color: #4a3c2e;
+            line-height: 1.7;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .highlight {
+            color: #8b6f4e;
+            font-weight: 600;
+        }
+
+        /* 分隔波浪線 */
+        .divider {
+            width: 400px;
+            height: 40px;
+            margin-bottom: 50px;
+        }
+
+        .divider svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Hashtags */
+        .hashtags {
+            font-family: 'Kalam', cursive;
+            font-size: 30px;
+            color: #a08060;
+            margin-bottom: 60px;
+            letter-spacing: 1px;
+            line-height: 1.6;
+        }
+
+        /* Logo 區域 */
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            opacity: 0.6;
+        }
+
+        .account {
+            font-family: 'Caveat', cursive;
+            font-size: 42px;
+            color: #a08060;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blur-bg-fallback"></div>
+    <div class="light-effects"></div>
+
+    <div class="journal-card">
+        <div class="lined-bg"></div>
+        <div class="binding-line"></div>
+
+        <div class="content">
+            <div class="emoji">📝</div>
+
+            <div class="main-text">
+                歡迎留言分享<br>
+                你的<span class="highlight">日常隨筆</span>
+            </div>
+
+            <div class="divider">
+                <svg viewBox="0 0 800 40" preserveAspectRatio="none">
+                    <path d="M0,20 Q65,5 130,20 T260,20 T390,20 T520,20 T650,20 T780,20 T800,20" fill="none"
+                        stroke="#c4a882" stroke-width="4" stroke-linecap="round" />
+                </svg>
+            </div>
+
+            <div class="hashtags">
+                #閱讀 #AI自動化 #個人成長 #人生鍛造所
+            </div>
+
+            <div class="logo-section">
+                <img class="logo" src="assets/TheLifeForgeLogo.png" alt="Logo">
+                <span class="account">@Josh_LifeForge</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
