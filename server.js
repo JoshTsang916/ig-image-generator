@@ -37,27 +37,28 @@ app.get('/health', (req, res) => {
  */
 app.post('/generate', async (req, res) => {
   const startTime = Date.now();
-  
+
   try {
-    const { 
-      template = 'carousel', 
-      backgroundUrl, 
+    const {
+      template = 'carousel',
+      backgroundUrl,
       slides,
       cloudinaryPreset = 'eevdbifs',
       cloudinaryCloudName = 'dpptdb3sr'
     } = req.body;
 
     // 驗證必要參數
-    if (!backgroundUrl) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Missing backgroundUrl' 
+    // journal 類型使用 CSS 生成背景，不需要 backgroundUrl
+    if (!backgroundUrl && template !== 'journal') {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing backgroundUrl'
       });
     }
     if (!slides || !Array.isArray(slides) || slides.length === 0) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Missing or empty slides array' 
+      return res.status(400).json({
+        success: false,
+        error: 'Missing or empty slides array'
       });
     }
 
@@ -72,14 +73,14 @@ app.post('/generate', async (req, res) => {
     for (let i = 0; i < pngBuffers.length; i++) {
       const { buffer, slideIndex, type } = pngBuffers[i];
       const publicId = `ig_${Date.now()}_slide_${slideIndex}`;
-      
+
       const url = await uploadToCloudinary(
-        buffer, 
-        publicId, 
-        cloudinaryCloudName, 
+        buffer,
+        publicId,
+        cloudinaryCloudName,
         cloudinaryPreset
       );
-      
+
       uploadedImages.push({ slideIndex, type, url });
       console.log(`[Upload] Slide ${slideIndex} uploaded`);
     }
