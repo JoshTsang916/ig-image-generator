@@ -171,11 +171,11 @@
             flex: 1;
             font-family: 'Kalam', cursive;
             font-size: 40px;
-            line-height: 1.95;
+            line-height: 1.75;
             color: #4a3c2e;
             letter-spacing: 0.5px;
             font-weight: 300;
-            overflow: hidden;
+            /* 移除 overflow: hidden 讓文字可以稍微超出 */
         }
 
         .journal-body p {
@@ -208,7 +208,8 @@
 </head>
 
 <body>
-    <div class="blur-bg"></div>
+    <!-- 使用純 CSS 漸層背景（不需要背景圖片） -->
+    <div class="blur-bg-fallback"></div>
     <div class="light-effects"></div>
 
     <div class="journal-card">
